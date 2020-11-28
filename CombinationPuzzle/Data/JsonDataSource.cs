@@ -14,7 +14,13 @@ namespace CombinationPuzzle.Data
             var sw = Stopwatch.StartNew();
             Console.WriteLine("Beginning Loading of Cube Data");
 
-            var cubeData = JsonSerializer.Deserialize<CubeData>(CubeDataResource.Data)!;
+            var byteData = CubeDataResource.Data;
+
+            Console.WriteLine($"Beginning Deserialization of Cube Data ({sw.Elapsed})");
+
+            var cubeData = JsonSerializer.Deserialize<CubeData>(byteData)!;
+
+            Console.WriteLine($"Beginning conversion of Cube Data ({sw.Elapsed})");
 
             CornsliceDepthTable = (cubeData.CornsliceDepthTable).ToImmutableArray();
             UpDownEdgesConjugationTable = UShortsFromByteArray(cubeData.UpDownEdgesConjugationTable).ToImmutableArray();
