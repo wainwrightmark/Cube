@@ -293,7 +293,7 @@ namespace CombinationPuzzle.Test
 
         public int? Threads { get; set; } = null;
 
-        public static DataSource DataSource { get; } = new JsonDataSource();
+        public static DataSource DataSource { get; } = new ProtoDataSource();
 
         /// <inheritdoc />
         public string Name => Cube.ToString()!;

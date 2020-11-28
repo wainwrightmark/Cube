@@ -15,14 +15,14 @@ namespace CombinationPuzzle.Test
     public sealed class GenericFileTests
     {
         //[Fact(Skip = "Manual")]
-        [Fact]
+        //[Fact]
         public void TestDataSource()
         {
-             var dataSource = new DataSourceCalculated();
+             var dataSource = new ProtoDataSource();
 
-             var path = @"C:\Users\wainw\source\repos\MarkPersonal\CombinationPuzzle\CombinationPuzzle\DataFiles1";
+             var path = @"C:\Users\wainw\source\repos\MarkPersonal\CombinationPuzzle\CombinationPuzzle\Data\DataFiles";
 
-             dataSource.WriteToFolder(path);
+             dataSource.WriteToProtoBufDataFile(path);
 
         }
     }
@@ -137,7 +137,7 @@ namespace CombinationPuzzle.Test
 
             public Func<DataSource, ImmutableArray<T>> GetDataFunc { get; }
 
-            public static DataSource FileDataSource = new JsonDataSource();
+            public static DataSource FileDataSource = new ProtoDataSource();
 
             /// <inheritdoc />
             public string Name { get; }

@@ -63,9 +63,9 @@ namespace CombinationPuzzle.Data {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Data {
+        internal static byte[] ProtoData {
             get {
-                object obj = ResourceManager.GetObject("Data", resourceCulture);
+                object obj = ResourceManager.GetObject("ProtoData", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -28,7 +28,7 @@ namespace CombinationPuzzle.Blazor.Pages
 
         public bool InvertSolution { get; set; }
 
-        public readonly Lazy<DataSource>  DataSource = new Lazy<DataSource>(()=> new JsonDataSource());// new DataSourceCalculated();
+        public readonly Lazy<DataSource>  DataSource = new Lazy<DataSource>(()=> new ProtoDataSource());// new DataSourceCalculated();
 
 
         public async Task SetToEmpty()

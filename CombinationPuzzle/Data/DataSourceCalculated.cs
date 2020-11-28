@@ -40,42 +40,6 @@ namespace CombinationPuzzle.Data
             Console.WriteLine($"Calculation of Cube Data complete ({sw.Elapsed})");
         }
 
-        public void WriteToFolder(string folderPath)
-        {
-            var data = new CubeData()
-            {
-                CornsliceDepthTable = ByteToByteArray(CornsliceDepthTable),
-                UpDownEdgesConjugationTable = UshortToByteArray(UpDownEdgesConjugationTable),
-                Phase2PruningTable = UIntToByteArray(Phase2PruningTable),
-                Phase2EdgeMergeTable = UshortToByteArray(Phase2EdgeMergeTable),
-                Phase1PruningData = UIntToByteArray(Phase1PruningData),
-                TwistConj = UshortToByteArray(TwistConj),
-                FlipsliceClassIndex = UshortToByteArray(FlipsliceClassIndex),
-                FlipsliceSymmetry = ByteToByteArray(FlipsliceSymmetry),
-                FlipsliceRep = UIntToByteArray(FlipsliceRep),
-                CornerClassIndex = UshortToByteArray(CornerClassIndex),
-                CornerSymmetry = ByteToByteArray(CornerSymmetry),
-                CornerRep = UshortToByteArray(CornerRep),
-                TwistMove = UshortToByteArray(TwistMove),
-                FlipMove = UshortToByteArray(FlipMove),
-                SliceSortedMove = UshortToByteArray(SliceSortedMove),
-                UEdgesMove = UshortToByteArray(UEdgesMove),
-                DEdgesMove = UshortToByteArray(DEdgesMove),
-                UdEdgesMove = UshortToByteArray(UdEdgesMove),
-                CornersMove = UshortToByteArray(CornersMove)
-            };
-
-
-            var json = JsonSerializer.Serialize(data);
-
-            File.WriteAllText(Path.Combine(folderPath, "Data.json"), json);
-
-            static byte[] UIntToByteArray(IEnumerable<uint> enumerable) => enumerable.SelectMany(BitConverter.GetBytes).ToArray();
-            static byte[] ByteToByteArray(IEnumerable<byte> enumerable) => enumerable.ToArray();
-            static byte[] UshortToByteArray(IEnumerable<ushort> enumerable) => enumerable.SelectMany(BitConverter.GetBytes).ToArray();
-        }
-
-
 
         private readonly Lazy<ImmutableArray<byte>> _cornsliceDepthTableLazy;
 

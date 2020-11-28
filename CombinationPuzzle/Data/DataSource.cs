@@ -1,10 +1,88 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using ProtoBuf;
 
 namespace CombinationPuzzle.Data
 {
     public abstract class DataSource
     {
+        public void WriteToProtoBufDataFile(string folderPath)
+        {
+            var data = new ProtoBufCubeData()
+            {
+                CornsliceDepthTable = ByteToByteArray(CornsliceDepthTable),
+                UpDownEdgesConjugationTable = UshortToByteArray(UpDownEdgesConjugationTable),
+                Phase2PruningTable = UIntToByteArray(Phase2PruningTable),
+                Phase2EdgeMergeTable = UshortToByteArray(Phase2EdgeMergeTable),
+                Phase1PruningData = UIntToByteArray(Phase1PruningData),
+                TwistConj = UshortToByteArray(TwistConj),
+                FlipsliceClassIndex = UshortToByteArray(FlipsliceClassIndex),
+                FlipsliceSymmetry = ByteToByteArray(FlipsliceSymmetry),
+                FlipsliceRep = UIntToByteArray(FlipsliceRep),
+                CornerClassIndex = UshortToByteArray(CornerClassIndex),
+                CornerSymmetry = ByteToByteArray(CornerSymmetry),
+                CornerRep = UshortToByteArray(CornerRep),
+                TwistMove = UshortToByteArray(TwistMove),
+                FlipMove = UshortToByteArray(FlipMove),
+                SliceSortedMove = UshortToByteArray(SliceSortedMove),
+                UEdgesMove = UshortToByteArray(UEdgesMove),
+                DEdgesMove = UshortToByteArray(DEdgesMove),
+                UdEdgesMove = UshortToByteArray(UdEdgesMove),
+                CornersMove = UshortToByteArray(CornersMove)
+            };
+
+            var path = Path.Combine(folderPath, "ProtoData.data");
+
+            using var stream = File.OpenWrite(path);
+
+            Serializer.Serialize(stream, data);
+
+
+            static byte[] UIntToByteArray(IEnumerable<uint> enumerable) => enumerable.SelectMany(BitConverter.GetBytes).ToArray();
+            static byte[] ByteToByteArray(IEnumerable<byte> enumerable) => enumerable.ToArray();
+            static byte[] UshortToByteArray(IEnumerable<ushort> enumerable) => enumerable.SelectMany(BitConverter.GetBytes).ToArray();
+        }
+
+        public void WriteToJsonFile(string folderPath)
+        {
+            var data = new CubeData()
+            {
+                CornsliceDepthTable = ByteToByteArray(CornsliceDepthTable),
+                UpDownEdgesConjugationTable = UshortToByteArray(UpDownEdgesConjugationTable),
+                Phase2PruningTable = UIntToByteArray(Phase2PruningTable),
+                Phase2EdgeMergeTable = UshortToByteArray(Phase2EdgeMergeTable),
+                Phase1PruningData = UIntToByteArray(Phase1PruningData),
+                TwistConj = UshortToByteArray(TwistConj),
+                FlipsliceClassIndex = UshortToByteArray(FlipsliceClassIndex),
+                FlipsliceSymmetry = ByteToByteArray(FlipsliceSymmetry),
+                FlipsliceRep = UIntToByteArray(FlipsliceRep),
+                CornerClassIndex = UshortToByteArray(CornerClassIndex),
+                CornerSymmetry = ByteToByteArray(CornerSymmetry),
+                CornerRep = UshortToByteArray(CornerRep),
+                TwistMove = UshortToByteArray(TwistMove),
+                FlipMove = UshortToByteArray(FlipMove),
+                SliceSortedMove = UshortToByteArray(SliceSortedMove),
+                UEdgesMove = UshortToByteArray(UEdgesMove),
+                DEdgesMove = UshortToByteArray(DEdgesMove),
+                UdEdgesMove = UshortToByteArray(UdEdgesMove),
+                CornersMove = UshortToByteArray(CornersMove)
+            };
+
+
+            var json = JsonSerializer.Serialize(data);
+
+            File.WriteAllText(Path.Combine(folderPath, "Data.json"), json);
+
+            static byte[] UIntToByteArray(IEnumerable<uint> enumerable) => enumerable.SelectMany(BitConverter.GetBytes).ToArray();
+            static byte[] ByteToByteArray(IEnumerable<byte> enumerable) => enumerable.ToArray();
+            static byte[] UshortToByteArray(IEnumerable<ushort> enumerable) => enumerable.SelectMany(BitConverter.GetBytes).ToArray();
+        }
+
+
         public uint GetFlipsliceTwistDepthMod3(ushort sliceSorted, ushort flip, ushort twist)
         {
             var slice = sliceSorted / Definitions.NPerm4;
