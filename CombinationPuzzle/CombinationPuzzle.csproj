@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DataFiles1\**" />
+    <Compile Remove="FileMakers\**" />
+    <EmbeddedResource Remove="DataFiles1\**" />
+    <EmbeddedResource Remove="FileMakers\**" />
+    <None Remove="DataFiles1\**" />
+    <None Remove="FileMakers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.13.0" />
+    <PackageReference Include="ImmutableLinkedList" Version="1.0.1" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Data\CubeDataResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CubeDataResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Data\CubeDataResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CubeDataResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

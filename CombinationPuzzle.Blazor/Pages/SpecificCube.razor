@@ -1,0 +1,72 @@
+﻿@using Extensions = CombinationPuzzle.Extensions
+@using CombinationPuzzle.Facelet
+@using BlazorStyled
+
+
+<Styled @bind-Classname="@_scene">
+    margin: @UnitsInPixels(6);
+    width: @UnitsInPixels(6);
+    height: @UnitsInPixels(6);
+    perspective: @UnitsInPixels(24);
+</Styled>
+
+<Styled @bind-Classname="@_cube">
+    width: inherit;
+    height: inherit;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 2s ease;
+</Styled>
+
+<Styled @bind-Classname="@_cubeFace">
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    background: black;
+    opacity: 1;
+    transition: all 2s linear;
+
+</Styled>
+
+
+
+<Styled @bind-Classname="@_square">
+    border: 1px solid black;
+    height: @UnitsInPixels(2);
+    width: @UnitsInPixels(2);
+    font-size: 12px;
+    text-align: center;
+    transition: all 1s linear;
+</Styled>
+
+<Styled Classname="@_square" PseudoClass="PseudoClasses.Hover">
+
+    border: 5px solid black;
+
+
+</Styled>
+
+
+<div class="@_scene">
+    <div class="@_cube" style="@GetCubeStyle()">
+        @foreach (var relativeFace in Extensions.GetEnumValues<FaceColor>())
+        {
+
+            <div class="@_cubeFace" style="@GetFaceStyle(relativeFace, MyCubeView, Orientation)">
+                <table>
+                    @foreach (var row in Orientation.GetRows(relativeFace))
+                    {
+                        <tr>
+                            @foreach (var cell in row)
+                            {
+                                var c = Cube[(relativeFace, cell.vp, cell.hp)];
+
+                                <td class="@_square" @onclick="@((e)=>FaceletClicked(relativeFace, cell.vp, cell.hp))" style="background-color: @c.ToHtml();"></td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    </div>
+</div>

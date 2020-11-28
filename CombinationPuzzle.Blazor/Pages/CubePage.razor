@@ -1,0 +1,51 @@
+﻿@using Extensions = CombinationPuzzle.Extensions
+
+<div>
+    <SpecificCube Cube="@Cube" Orientation="@Orientation" MyCubeView="MyCubeView" OnFaceletClick="@FaceletClicked"></SpecificCube>
+</div>
+<br/>
+<br/>
+
+<button disabled="@(Solving)" @onclick="Solve">Solve</button>
+
+<input type="checkbox" @bind="InvertSolution"/>
+
+
+<br/>
+<label>@Solution?.GetName(Orientation, InvertSolution)</label>
+<br/>
+<label>@Error</label>
+<br/>
+
+<button @onclick="SetToEmpty">Empty</button>
+<button @onclick="SetToSolved">Solved</button>
+<button @onclick="Randomize">Random</button>
+<br/>
+
+
+
+@foreach (var moveEnumGroup in Extensions.GetEnumValues<Move>().GroupBy(x=>x.Deconstruct().number))
+{
+    foreach (var moveEnum in moveEnumGroup)
+    {
+        <button @onclick="@(()=>ApplyOperation(moveEnum))" style="@(IsNextMove(moveEnum)?"width: 50px; background-color: green;": "width: 50px;")" >@moveEnum.GetDisplayName(Orientation.Default, false)</button>
+    }
+    <br/>
+}
+
+
+@foreach (var (name, function) in Orientation.AllMoves)
+{
+    <button @onclick="@(()=> Rotate(function))" >@name</button>
+}
+<br/>
+
+<br/>
+@foreach (var cubeView in Extensions.GetEnumValues<SpecificCube.CubeView>())
+{
+    <button @onclick="@(()=>MyCubeView = cubeView)">@cubeView</button>
+}
+
+
+
+
