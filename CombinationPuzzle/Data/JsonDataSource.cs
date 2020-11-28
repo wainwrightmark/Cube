@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace CombinationPuzzle.Data
@@ -10,6 +11,9 @@ namespace CombinationPuzzle.Data
         /// <inheritdoc />
         public JsonDataSource()
         {
+            var sw = Stopwatch.StartNew();
+            Console.WriteLine("Beginning Loading of Cube Data");
+
             var cubeData = JsonSerializer.Deserialize<CubeData>(CubeDataResource.Data)!;
 
             CornsliceDepthTable = (cubeData.CornsliceDepthTable).ToImmutableArray();
@@ -31,6 +35,8 @@ namespace CombinationPuzzle.Data
             DEdgesMove = UShortsFromByteArray(cubeData.DEdgesMove).ToImmutableArray();
             UdEdgesMove =  UShortsFromByteArray(cubeData.UdEdgesMove).ToImmutableArray();
             CornersMove = UShortsFromByteArray(cubeData.CornersMove) .ToImmutableArray();
+
+            Console.WriteLine($"Loading of Cube Data complete ({sw.Elapsed})");
 
             static IEnumerable<ushort> UShortsFromByteArray(byte[] bytes)
             {

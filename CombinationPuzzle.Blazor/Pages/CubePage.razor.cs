@@ -28,7 +28,7 @@ namespace CombinationPuzzle.Blazor.Pages
 
         public bool InvertSolution { get; set; }
 
-        public readonly DataSource DataSource = new JsonDataSource();// new DataSourceCalculated();
+        public readonly Lazy<DataSource>  DataSource = new Lazy<DataSource>(()=> new JsonDataSource());// new DataSourceCalculated();
 
 
         public async Task SetToEmpty()
@@ -132,7 +132,7 @@ namespace CombinationPuzzle.Blazor.Pages
 
                 if (cubeResult.IsSuccess)
                 {
-                    var solution = await Task.Run(()=>cubeResult.Value.Solve(TimeSpan.FromSeconds(1), 22, DataSource)) ;
+                    var solution = await Task.Run(()=>cubeResult.Value.Solve(TimeSpan.FromSeconds(1), 22, DataSource.Value)) ;
 
                     if (solution != null)
                     {

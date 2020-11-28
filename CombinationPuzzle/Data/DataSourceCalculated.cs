@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -15,6 +16,9 @@ namespace CombinationPuzzle.Data
         /// <inheritdoc />
         public DataSourceCalculated()
         {
+            var sw = Stopwatch.StartNew();
+            Console.WriteLine("Beginning Calculation of Cube Data");
+
             _cornsliceDepthTableLazy = new Lazy<ImmutableArray<byte>>(()=>CornsliceDepth.Create(this));
             _upDownEdgesConjugationTableLazy = new Lazy<ImmutableArray<ushort>>(UpDownEdgesConjugation.Create);
             _phase2PruningTableLazy = new Lazy<ImmutableArray<uint>>(() => Phase2Pruning.Create(this));
@@ -32,6 +36,8 @@ namespace CombinationPuzzle.Data
             _udEdgesMoveLazy = new Lazy<ImmutableArray<ushort>>(Create(UDEdgesMoveProperty.Instance));
             _cornersMoveLazy = new Lazy<ImmutableArray<ushort>>(Create(CornersMoveProperty.Instance));
 
+
+            Console.WriteLine($"Calculation of Cube Data complete ({sw.Elapsed})");
         }
 
         public void WriteToFolder(string folderPath)
